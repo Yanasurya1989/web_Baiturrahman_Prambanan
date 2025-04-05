@@ -1,0 +1,115 @@
+<?php
+
+use App\Http\Controllers\AboutController;
+use App\Http\Controllers\Study;
+use App\Http\Controllers\FStudy;
+use App\Http\Controllers\FeIncluded;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\NewsController;
+use App\Http\Controllers\UnitController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\HeaderController;
+use App\Http\Controllers\HomepageController;
+use App\Http\Controllers\StructurController;
+use App\Http\Controllers\LogoController;
+
+
+
+// Route::get('/logos/create', [LogoController::class, 'create'])->name('logos.create');
+// Route::post('/logos', [LogoController::class, 'store'])->name('logos.store');
+// Route::get('/logos/{logo}/edit', [LogoController::class, 'edit'])->name('logos.edit');
+// Route::put('/logos/{logo}', [LogoController::class, 'update'])->name('logos.update');
+// Route::delete('/logos/{logo}', [LogoController::class, 'destroy'])->name('logos.destroy');
+
+
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+Route::middleware(['web', 'auth'])->group(function () {
+    Route::get('/logos', [LogoController::class, 'index']);
+    Route::post('/logos/post', [LogoController::class, 'store'])->middleware('auth');
+    Route::get('/logos/edit/{logo}', [LogoController::class, 'edit'])->middleware('auth');
+    Route::patch('logos/update/{logo}', [LogoController::class, 'update'])->middleware('auth');
+    Route::get('/logos/delete/{id}', [LogoController::class, 'delete'])->middleware('auth');
+});
+
+
+Route::get('/login', [AuthController::class, 'login'])->name('login')->middleware('guest');
+// Route::post('/postLogin', [AuthController::class, 'postLogin'])->middleware('guest');
+Route::post('/login', [AuthController::class, 'authenticate']);
+Route::get('/logout', [AuthController::class, 'logout'])->middleware('auth');
+
+// Route::get('/', [HomepageController::class, 'home'])->middleware('auth');
+Route::get('/', [HomepageController::class, 'home']);
+
+Route::get('/admin', [HomepageController::class, 'home_admin'])->middleware('auth');
+
+// Logo
+// Route::get('/logos', [LogoController::class, 'index']);
+
+// User
+Route::get('/users', [UserController::class, 'index']);
+Route::post('/users/store', [UserController::class, 'store']);
+Route::get('/users/delete/{id}', [UserController::class, 'delete']);
+Route::get('/user/edit/{user}', [UserController::class, 'edit']);
+Route::post('/user/update/{user}', [UserController::class, 'update']);
+
+// Slider
+Route::get('/slider', [HeaderController::class, 'index']);
+Route::post('/slider/post', [HeaderController::class, 'store'])->middleware('auth');
+Route::get('/slider/edit/{header}', [HeaderController::class, 'edit'])->middleware('auth');
+Route::patch('slider/update/{id_slider}', [HeaderController::class, 'update_slider'])->middleware('auth');
+Route::get('/slider/delete/{id}', [HeaderController::class, 'delete'])->middleware('auth');
+Route::get('/slider/{id}', [HeaderController::class, 'show'])->name('detail.slider');
+Route::get('/slider/{id}', [HeaderController::class, 'contact'])->name('detail.slider');
+Route::get('/about/{about}', [AboutController::class, 'show'])->name('detile.about');
+Route::patch('/slider/toggle-status/{id}', [HeaderController::class, 'toggleStatus'])->name('slider.toggleStatus');
+Route::patch('/slider/toggleStatus/{id}', [HeaderController::class, 'toggleStatus'])->name('slider.toggleStatus');
+
+// Unit
+Route::get('/unit', [UnitController::class, 'index'])->middleware('auth');
+Route::post('/unit/store', [UnitController::class, 'store'])->middleware('auth');
+Route::get('unit/delete/{id}', [UnitController::class, 'destroy'])->middleware('auth');
+
+// Kajian
+Route::get('/study', [Study::class, 'index'])->middleware('auth')->middleware('auth');
+Route::post('/study/store', [Study::class, 'store'])->middleware('auth');
+Route::get('/study/delete/{id}', [Study::class, 'destroy'])->middleware('auth');
+
+// News
+Route::get('/news', [NewsController::class, 'index'])->middleware('auth');
+Route::post('/news/store', [NewsController::class, 'store'])->middleware('auth');
+Route::get('/news/delete/{id}', [NewsController::class, 'destroy'])->middleware('auth');
+Route::get('/news/frontend', [NewsController::class, 'frontend']);
+
+
+// Structures
+Route::post('/structure/store', [StructurController::class, 'store'])->middleware('auth');
+Route::get('/structure', [StructurController::class, 'index'])->middleware('auth');
+Route::get('/structure/delete/{id}', [StructurController::class, 'destroy'])->middleware('auth');
+
+// About
+Route::resource('about', AboutController::class);
+Route::get('/test-create', function () {
+    return view('about.create');
+});
+Route::get('/about', [AboutController::class, 'index'])->middleware('auth');
+Route::post('/about/store', [AboutController::class, 'store'])->middleware('auth');
+// Route::get('/tentang', [AboutController::class, 'showAbout'])->name('frontend.about');
+Route::patch('/about/{id}/toggle-status', [AboutController::class, 'toggleStatus'])->name('about.toggleStatus');
+
+// Program
+Route::resource('programs', \App\Http\Controllers\ProgramController::class);
+
+
+
+// Route::get('/login', [AuthController::class, 'login']);
+
+// Frontend star
+// New Header start
+Route::get('/fe-master', [FeIncluded::class, 'index']);
+// New Header end
+// kajian
+Route::get('/fstudy', [FStudy::class, 'index']);
+// Frontend end
