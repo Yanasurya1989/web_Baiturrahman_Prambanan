@@ -87,8 +87,6 @@ class ProgramController extends Controller
         return redirect()->route('programs.index')->with('success', 'Program berhasil diperbarui.');
     }
 
-
-
     public function destroy($id)
     {
         $program = Program::findOrFail($id);
