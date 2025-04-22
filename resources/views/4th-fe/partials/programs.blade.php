@@ -1,5 +1,5 @@
 <!-- Programs Start -->
-@if (in_array('Programs', $visibleSections) && isset($programs))
+@if (in_array('programs', $visibleSections) && isset($programs))
     <div class="container-xxl py-5 category">
         <div class="container">
             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">

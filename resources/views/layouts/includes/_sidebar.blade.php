@@ -55,7 +55,7 @@
                 <a class="collapse-item" href="{{ url('/slider') }}">Slider</a>
                 <a class="collapse-item" href="{{ url('/about') }}">About</a>
                 <a class="collapse-item" href="{{ url('/unit') }}">Unit</a>
-                <a class="collapse-item" href="{{ url('/programs') }}">Program</a>
+                <a class="collapse-item" href="{{ url('/catprog/create') }}">Program</a>
                 <a class="collapse-item" href="{{ url('/structure') }}">Pengurus</a>
                 <a class="collapse-item" href="{{ url('/news') }}">Berita</a>
                 {{-- <a class="collapse-item" href="{{ url('/study') }}">Kajian</a> --}}

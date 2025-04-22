@@ -37,6 +37,7 @@
     @include('4th-fe.partials.spinner')
 
     {{-- Loop Section Berdasarkan Urutan --}}
+    {{-- <pre>{{ print_r($sections, true) }}</pre> --}}
     @foreach ($sections as $section)
         @switch($section->section_name)
             @case('header')
@@ -83,7 +84,16 @@
 
             @case('programs')
                 @if (view()->exists('4th-fe.partials.programs'))
-                    @include('4th-fe.partials.programs')
+                    @include('4th-fe.partials.programs', [
+                        'programs' => $programs ?? [],
+                        'visibleSections' => $visibleSections ?? [],
+                    ])
+                @endif
+            @break
+
+            @case('catprog')
+                @if (view()->exists('4th-fe.partials.catprog'))
+                    @include('4th-fe.partials.catprog')
                 @endif
             @break
 

@@ -1,28 +1,34 @@
 <?php
 
-use App\Http\Controllers\AboutController;
 use App\Http\Controllers\Study;
 use App\Http\Controllers\FStudy;
 use App\Http\Controllers\FeIncluded;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\LogoController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AboutController;
 use App\Http\Controllers\HeaderController;
+use App\Http\Controllers\CatprogController;
 use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\StructurController;
-use App\Http\Controllers\LogoController;
-use App\Http\Controllers\SectionSettingController;
 use App\Http\Controllers\TestimonialController;
+use App\Http\Controllers\SectionSettingController;
+
+Route::get('/', function () {
+    $catprogs = \App\Models\Catprog::all(); // kirim data ke layout
+    return view('4th-fe.index', compact('catprogs'));
+})->name('4th-fe.index');
+
+Route::resource('catprog', CatprogController::class);
 
 Route::post('/admin/section-settings/order', [SectionSettingController::class, 'updateOrder'])->name('section-settings.order');
-
 
 Route::middleware(['auth'])->group(function () {
     Route::resource('testimonials', TestimonialController::class);
 });
-
 
 // routes/web.php
 Route::middleware(['auth', 'is_admin'])->group(function () {

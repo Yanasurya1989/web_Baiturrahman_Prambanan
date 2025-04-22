@@ -27,7 +27,7 @@ class HomepageController extends Controller
         $news = News::get();
         $programs = Program::where('status', 1)->take(4)->get();
         $testimonials = Testimonial::latest()->get();
-
+        $catprogs = \App\Models\Catprog::all();
         $about = About::where('status', 'active')->first();
         if ($about) {
             $about->video_url = str_replace("watch?v=", "embed/", $about->video_url);
@@ -79,7 +79,8 @@ class HomepageController extends Controller
             'teams',
             'sections',
             'testimonials',
-            'visibleSections' // 🔥 Tambahan ini yang penting
+            'visibleSections', // 🔥 Tambahan ini yang penting
+            'catprogs',
         ));
     }
 

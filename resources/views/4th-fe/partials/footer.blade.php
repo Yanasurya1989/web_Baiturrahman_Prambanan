@@ -4,12 +4,14 @@
         <div class="row g-5" style="display: flex; align-items: stretch;">
             <!-- Kolom Kiri: Identitas Lembaga -->
             <div class="col-md-6 d-flex flex-column">
-                <!-- Logo dan Nama Yayasan Sejajar -->
                 <div class="d-flex align-items-center mb-3">
                     @foreach ($logos as $logo)
                         <img src="{{ asset($logo->image_path) }}" alt="Logo" style="height: 60px; width: auto;"
                             class="me-3">
-                        <h5 class="text-white mb-0">Yayasan Baiturrahman Prambanan</h5>
+                        <div class="d-flex flex-column text-white">
+                            <span class="fw-bold" style="font-size: 1.25rem;">Yayasan Baiturrahman</span>
+                            <span class="text-secondary" style="font-size: 1rem;">Prambanan</span>
+                        </div>
                     @endforeach
                 </div>
 
