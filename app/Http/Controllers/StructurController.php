@@ -24,10 +24,7 @@ class StructurController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function storeBentarMauUpdateSosmed(Request $request)
     {
         // input
         $nama = $request->nama;
@@ -53,9 +50,43 @@ class StructurController extends Controller
         return redirect('/structure');
     }
 
-    /**
-     * Display the specified resource.
-     */
+    public function store(Request $request)
+    {
+        // input
+        $nama = $request->nama;
+        $jabatan = $request->jabatan;
+        $sambutan = $request->sambutan;
+        // $link_sosmed = $request->link_sosmed;
+        $fb = $request->fb;
+        $twitter = $request->twitter;
+        $instagram = $request->instagram;
+        $youtube = $request->youtube;
+
+        if ($request->hasFile('gambar')) {
+            $path_loc = $request->file('gambar');
+            $url = $path_loc->move('storage/image', $path_loc->hashName());
+            $gambar_path = $url->getPath() . '/' . $url->getFilename();
+        } else {
+            $gambar_path = null;
+        }
+
+        // proses
+        $simpan = Structurs::create([
+            'nama' => $nama,
+            'jabatan' => $jabatan,
+            'sambutan' => $sambutan,
+            'gambar' => $gambar_path,
+            // 'link_sosmed' => $link_sosmed,
+            'fb' => $fb,
+            'twitter' => $twitter,
+            'instagram' => $instagram,
+            'youtube' => $youtube,
+        ]);
+
+        // output
+        return redirect('/structure');
+    }
+
     public function show(Structurs $structurs)
     {
         //

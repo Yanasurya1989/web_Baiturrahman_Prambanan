@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('programs', function (Blueprint $table) {
+        Schema::create('section_settings', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('subtitle')->nullable(); // bisa diisi seperti "Ummahat", "Santunan", dll
-            $table->string('image');
-            $table->enum('layout', ['big', 'half', 'full']); // untuk menentukan tampilannya
+            $table->string('section_name')->unique(); // nama section: abouts, headers, news, etc
             $table->enum('status', ['active', 'non-active'])->default('active');
             $table->timestamps();
         });
@@ -27,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('programs');
+        Schema::dropIfExists('section_settings');
     }
 };

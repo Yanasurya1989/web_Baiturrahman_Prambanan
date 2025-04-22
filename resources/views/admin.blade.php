@@ -10,5 +10,6 @@
         {{-- {{ Auth::user() }} --}}
         {{ Auth::user()->role }}
 
+
     </div>
 @endsection

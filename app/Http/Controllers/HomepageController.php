@@ -2,33 +2,85 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\About;
 use App\Models\Logo;
-use App\Models\Unit;
-use App\Models\Header;
 use App\Models\News;
+use App\Models\Unit;
+use App\Models\About;
+use App\Models\Header;
+use App\Models\Program;
 use App\Models\Studies;
 use App\Models\Structurs;
+use App\Models\Testimonial;
 use Illuminate\Http\Request;
+use App\Models\SectionSetting;
+use App\Helpers\SectionVisibility;
 
 class HomepageController extends Controller
 {
     public function home()
     {
-        $studies = Studies::Latest()->limit(2)->get();
+        $studies = Studies::latest()->limit(2)->get();
         $units = Unit::get();
         $structurs = Structurs::get();
         $sliders = Header::where('status', 'active')->get();
         $logos = Logo::get();
         $news = News::get();
-        // $abouts = About::latest()->first(); // ambil data terbaru
-        $about = About::where('status', 'active')->first();
-        $about->video_url = str_replace("watch?v=", "embed/", $about->video_url);
+        $programs = Program::where('status', 1)->take(4)->get();
+        $testimonials = Testimonial::latest()->get();
 
-        return view('4th-fe.index', compact('news', 'logos', 'sliders', 'studies', 'structurs', 'units', 'about'));
-        // return view('rd-user.index', compact('sliders', 'studies', 'structurs'));
-        // return view('nd-user.index', compact('sliders'));
-        // return view('user', compact('studies', 'units', 'structures'));
+        $about = About::where('status', 'active')->first();
+        if ($about) {
+            $about->video_url = str_replace("watch?v=", "embed/", $about->video_url);
+        }
+
+        $teams = Structurs::get(); // Bisa diganti nanti kalau ada model Team
+
+        // Ambil semua section yang aktif & urut
+        $sections = SectionVisibility::getVisibleSectionsWithOrder()->map(function ($item) {
+            $item->section_name = strtolower($item->section_name);
+            return $item;
+        });
+
+        // Buat array nama-nama section yang aktif
+        $activeSections = $sections->pluck('section_name')->toArray();
+
+        // Versi uppercase pertama (buat blade yang pakai `Programs`, `Abouts`, dll)
+        $visibleSections = array_map('ucfirst', $activeSections);
+
+        // Cek apakah section tertentu aktif
+        $showAbout = in_array('abouts', $activeSections);
+        $showPrograms = in_array('programs', $activeSections);
+        $showNews = in_array('news', $activeSections);
+        $showStudies = in_array('studies', $activeSections);
+        $showStructurs = in_array('structurs', $activeSections);
+        $showUnits = in_array('units', $activeSections);
+        $showTestimonials = in_array('testimonials', $activeSections);
+        $showSliders = in_array('headers', $activeSections);
+        $showLogos = in_array('logos', $activeSections);
+
+        return view('4th-fe.index', compact(
+            'news',
+            'logos',
+            'sliders',
+            'studies',
+            'structurs',
+            'units',
+            'about',
+            'programs',
+            'showAbout',
+            'showPrograms',
+            'showNews',
+            'showStudies',
+            'showStructurs',
+            'showUnits',
+            'showTestimonials',
+            'showSliders',
+            'showLogos',
+            'teams',
+            'sections',
+            'testimonials',
+            'visibleSections' // 🔥 Tambahan ini yang penting
+        ));
     }
 
     public function home_admin()

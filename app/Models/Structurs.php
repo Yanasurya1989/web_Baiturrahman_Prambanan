@@ -13,5 +13,9 @@ class Structurs extends Model
         'jabatan',
         'sambutan',
         'gambar',
+        'fb',
+        'twitter',
+        'instagram',
+        'youtube',
     ];
 }

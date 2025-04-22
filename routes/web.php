@@ -13,19 +13,34 @@ use App\Http\Controllers\HeaderController;
 use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\StructurController;
 use App\Http\Controllers\LogoController;
+use App\Http\Controllers\SectionSettingController;
+use App\Http\Controllers\TestimonialController;
+
+Route::post('/admin/section-settings/order', [SectionSettingController::class, 'updateOrder'])->name('section-settings.order');
 
 
-
-// Route::get('/logos/create', [LogoController::class, 'create'])->name('logos.create');
-// Route::post('/logos', [LogoController::class, 'store'])->name('logos.store');
-// Route::get('/logos/{logo}/edit', [LogoController::class, 'edit'])->name('logos.edit');
-// Route::put('/logos/{logo}', [LogoController::class, 'update'])->name('logos.update');
-// Route::delete('/logos/{logo}', [LogoController::class, 'destroy'])->name('logos.destroy');
+Route::middleware(['auth'])->group(function () {
+    Route::resource('testimonials', TestimonialController::class);
+});
 
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+// routes/web.php
+Route::middleware(['auth', 'is_admin'])->group(function () {
+    Route::get('/admin/section-settings', [SectionSettingController::class, 'index'])->name('section-settings.index');
+    Route::post('/admin/section-settings/toggle', [SectionSettingController::class, 'toggle'])->name('section-settings.toggle');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/section-settings', [SectionSettingController::class, 'index'])->name('section-settings.index');
+    Route::post('/admin/section-settings/toggle', [SectionSettingController::class, 'toggle'])->name('section-settings.toggle');
+});
+
+// routes/web.php
+Route::middleware(['auth'])->group(function () {
+    Route::get('/section-settings', [SectionSettingController::class, 'index'])->name('section.settings');
+    Route::post('/section-settings/update', [SectionSettingController::class, 'update'])->name('section.settings.update');
+});
+
 Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/logos', [LogoController::class, 'index']);
     Route::post('/logos/post', [LogoController::class, 'store'])->middleware('auth');

@@ -29,6 +29,21 @@
 
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOne"
+            aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fas fa-solid fa-book"></i>
+            <span>Layout</span>
+        </a>
+        <div id="collapseOne" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                {{-- <h6 class="collapse-header">Content</h6> --}}
+                <a class="collapse-item" href="{{ url('admin/section-settings') }}">Slider</a>
+            </div>
+        </div>
+    </li>
+
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
             aria-expanded="true" aria-controls="collapseTwo">
             <i class="fas fa-fw fa-cog"></i>
@@ -38,11 +53,13 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 {{-- <h6 class="collapse-header">Content</h6> --}}
                 <a class="collapse-item" href="{{ url('/slider') }}">Slider</a>
-                <a class="collapse-item" href="{{ url('/unit') }}">Unit</a>
                 <a class="collapse-item" href="{{ url('/about') }}">About</a>
+                <a class="collapse-item" href="{{ url('/unit') }}">Unit</a>
+                <a class="collapse-item" href="{{ url('/programs') }}">Program</a>
                 <a class="collapse-item" href="{{ url('/structure') }}">Pengurus</a>
                 <a class="collapse-item" href="{{ url('/news') }}">Berita</a>
-                <a class="collapse-item" href="{{ url('/study') }}">Kajian</a>
+                {{-- <a class="collapse-item" href="{{ url('/study') }}">Kajian</a> --}}
+                <a class="collapse-item" href="{{ url('/admin/testimonials') }}">Testimony</a>
             </div>
         </div>
     </li>
@@ -64,12 +81,13 @@
     </li>
 
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilitiesTwo"
             aria-expanded="true" aria-controls="collapseUtilities">
             <i class="fas fa-solid fa-envelope"></i>
             <span>Footer</span>
         </a>
-        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+        <div id="collapseUtilitiesTwo" class="collapse" aria-labelledby="headingUtilities"
+            data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 {{-- <h6 class="collapse-header">Header</h6> --}}
                 <a class="collapse-item" href="#">Logo</a>
