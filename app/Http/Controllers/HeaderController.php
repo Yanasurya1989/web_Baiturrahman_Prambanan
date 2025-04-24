@@ -22,6 +22,14 @@ class HeaderController extends Controller
         return view('slider.index', compact('header'));
     }
 
+    public function showCarouselFe($id)
+    {
+        $allSliders = Header::all();
+        $slider = Header::findOrFail($id);
+        return view('slider.CarouselFe.detil', compact('slider', 'allSliders'));
+    }
+
+
     public function toggleStatus($id)
     {
         $header = Header::findOrFail($id);
@@ -37,6 +45,7 @@ class HeaderController extends Controller
         // input
         $judul = $request->judul;
         $deskripsi = $request->deskripsi;
+        $kategori = $request->kategori;
 
         if ($request->hasFile('gambar')) {
             $path_loc = $request->file('gambar');
@@ -50,6 +59,7 @@ class HeaderController extends Controller
             'judul' => $judul,
             'deskripsi' => $deskripsi,
             'gambar' => $url->getPath() . '/' . $url->getFilename(),
+            'kategori' => $kategori,
         ]);
 
         // output
@@ -133,5 +143,36 @@ class HeaderController extends Controller
     public function abot()
     {
         return view('about.index');
+    }
+
+    public function createSummer()
+    {
+        // return view('slider.create');
+        return view('slider.create');
+    }
+
+    public function storeSummer(Request $request)
+    {
+        $request->validate([
+            'judul' => 'required',
+            'deskripsi' => 'required',
+            'gambar' => 'required|image|max:2048',
+
+        ]);
+
+        // Upload gambar
+        $fileName = time() . '.' . $request->gambar->extension();
+        $request->gambar->move(public_path('slider_images'), $fileName);
+
+        // Simpan ke database
+        Header::create([
+            'judul' => $request->judul,
+            'deskripsi' => $request->deskripsi,
+            'gambar' => $fileName,
+            'kategori' => $request->kategori,
+
+        ]);
+
+        return redirect()->route('slider.index')->with('success', 'Slider berhasil ditambahkan');
     }
 }

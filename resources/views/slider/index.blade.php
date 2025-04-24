@@ -13,9 +13,12 @@
             <div class="card-body">
                 <div class="row mb-3">
                     <div class="col">
-                        <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#addSliderModal">
+                        {{-- <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#addSliderModal">
                             Add Slider
-                        </button>
+                        </button> --}}
+
+                        <a href="{{ url('/insertSlider') }}" class="btn btn-primary mb-3">Add Slider</a>
+
                         {{-- modal --}}
                         <div class="modal fade" tabindex="-1" id="addSliderModal" aria-labelledby="addSliderModalLabel"
                             aria-hidden="true">
@@ -37,7 +40,8 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label for="exampleInputEmail1" class="form-label">Deskripsi</label>
-                                                <input type="text" class="form-control" id="deskripsi" name="deskripsi">
+                                                <textarea class="form-control" id="deskripsi" name="deskripsi"></textarea>
+                                                {{-- <input type="text" class="form-control" id="deskripsi" name="deskripsi"> --}}
                                             </div>
                                             <div class="mb-3">
                                                 <label for="exampleInputEmail1" class="form-label">Gambar</label>
@@ -59,6 +63,7 @@
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
+                                <th>Kategori</th>
                                 <th>Judul</th>
                                 <th>Deskripsi</th>
                                 <th>Gambar</th>
@@ -69,6 +74,7 @@
                         <tbody>
                             @foreach ($header as $data)
                                 <tr>
+                                    <td>{{ $data['kategori'] }}</td>
                                     <td>{{ $data['judul'] }}</td>
                                     <td>{{ $data['deskripsi'] }}</td>
                                     <td>
@@ -121,4 +127,21 @@
             </div>
         </div>
     </div>
+
+    @push('scripts')
+        <script>
+            $(document).ready(function() {
+                $('#deskripsi').summernote({
+                    height: 300,
+                    toolbar: [
+                        ['style', ['bold', 'italic', 'underline', 'clear']],
+                        ['font', ['strikethrough']],
+                        ['para', ['ul', 'ol', 'paragraph']],
+                        ['insert', ['link', 'picture', 'video']],
+                        ['view', ['codeview']]
+                    ]
+                });
+            });
+        </script>
+    @endpush
 @endsection

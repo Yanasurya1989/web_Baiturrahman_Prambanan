@@ -22,14 +22,30 @@ class HomepageController extends Controller
         $studies = Studies::latest()->limit(2)->get();
         $units = Unit::get();
         $structurs = Structurs::get();
+
         $sliders = Header::where('status', 'active')->get();
+        foreach ($sliders as $data) {
+            $data->short_description = substr($data->deskripsi, 0, 100) . '...';
+        }
+
         $logos = Logo::get();
         $news = News::get();
         $programs = Program::where('status', 1)->take(4)->get();
         $testimonials = Testimonial::latest()->get();
         $catprogs = \App\Models\Catprog::all();
+
+        // $about = About::where('status', 'active')->first();
+        // foreach ($about as $data) {
+        //     $data->short_description = substr($data->about, 0, 100) . '...';
+        // }
+
+        // if ($about) {
+        //     $about->video_url = str_replace("watch?v=", "embed/", $about->video_url);
+        // }
+
         $about = About::where('status', 'active')->first();
         if ($about) {
+            $about->short_description = substr($about->description, 0, 200) . '...';  // Potong deskripsi menjadi 100 karakter
             $about->video_url = str_replace("watch?v=", "embed/", $about->video_url);
         }
 
@@ -87,5 +103,11 @@ class HomepageController extends Controller
     public function home_admin()
     {
         return view('admin');
+    }
+
+    public function aboutDetil()
+    {
+        $about = About::where('status', 'active')->first();
+        return view('about.detil', compact('about'));
     }
 }

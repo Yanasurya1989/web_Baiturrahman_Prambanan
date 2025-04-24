@@ -87,6 +87,10 @@ Route::get('/slider/{id}', [HeaderController::class, 'contact'])->name('detail.s
 Route::get('/about/{about}', [AboutController::class, 'show'])->name('detile.about');
 Route::patch('/slider/toggle-status/{id}', [HeaderController::class, 'toggleStatus'])->name('slider.toggleStatus');
 Route::patch('/slider/toggleStatus/{id}', [HeaderController::class, 'toggleStatus'])->name('slider.toggleStatus');
+Route::get('/slider/{id}', [HeaderController::class, 'showCarouselFe'])->name('slider.show');
+Route::get('/slider/create', [HeaderController::class, 'createSummer']);
+Route::post('slider/store', [HeaderController::class, 'storeSummer'])->name('slider.store');
+Route::get('/insertSlider', [HeaderController::class, 'createSummer']);
 
 // Unit
 Route::get('/unit', [UnitController::class, 'index'])->middleware('auth');
@@ -117,8 +121,9 @@ Route::get('/test-create', function () {
 });
 Route::get('/about', [AboutController::class, 'index'])->middleware('auth');
 Route::post('/about/store', [AboutController::class, 'store'])->middleware('auth');
-// Route::get('/tentang', [AboutController::class, 'showAbout'])->name('frontend.about');
 Route::patch('/about/{id}/toggle-status', [AboutController::class, 'toggleStatus'])->name('about.toggleStatus');
+Route::get('/detilAbout', [HomepageController::class, 'aboutDetil']);
+
 
 // Program
 Route::resource('programs', \App\Http\Controllers\ProgramController::class);

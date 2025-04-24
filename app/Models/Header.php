@@ -12,6 +12,7 @@ class Header extends Model
         'judul',
         'deskripsi',
         'gambar',
+        'kategori',
         'status'
     ];
 

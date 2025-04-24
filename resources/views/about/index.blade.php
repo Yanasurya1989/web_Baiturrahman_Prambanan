@@ -42,6 +42,12 @@
                                             </div>
 
                                             <div class="mb-3">
+                                                <label for="header_image" class="form-label">Image</label>
+                                                <input type="file" class="form-control" id="header_image"
+                                                    name="header_image" accept="image/*">
+                                            </div>
+
+                                            <div class="mb-3">
                                                 <label for="exampleInputEmail1" class="form-label">Link</label>
                                                 <input type="text" class="form-control" id="video_url" name="video_url">
                                             </div>

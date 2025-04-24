@@ -12,7 +12,7 @@
             </div>
 
             <div class="mb-3">
-                <label for="course_count" class="form-label">Jumlah Kursus (opsional)</label>
+                <label for="course_count" class="form-label">Sub Judul</label>
                 <input type="text" name="course_count" class="form-control">
             </div>
 

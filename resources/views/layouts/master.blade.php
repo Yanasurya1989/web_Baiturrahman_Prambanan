@@ -27,6 +27,9 @@
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
 
+    <!-- Summernote CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-bs4.min.css" rel="stylesheet">
+
     {{-- Styles pushed from child views --}}
     @stack('styles')
 </head>
@@ -103,7 +106,8 @@
     <script src="{{ asset('backend/js/sb-admin-2.min.js') }}"></script>
 
     <!-- Owl Carousel -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Summernote JS lengkap -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-bs4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     <script>
         $(document).ready(function() {
@@ -122,6 +126,17 @@
     {{-- Scripts pushed from child views --}}
     @stack('scripts')
 
+    <!-- Summernote JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-bs4.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#deskripsi').summernote({
+                height: 250
+            });
+        });
+    </script>
 </body>
 
 </html>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\About;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AboutController extends Controller
 {
@@ -28,13 +29,19 @@ class AboutController extends Controller
         return view('about.create');
     }
 
-    public function store(Request $request)
+    public function storeBentarLagiNambahGambar(Request $request)
     {
         // input
         $title = $request->title;
         $description = $request->description;
         $video_url = $request->video_url;
         $status = $request->status;
+
+        if ($request->hasFile('header_image')) {
+            $path = $request->file('header_image')->store('about_headers', 'public');
+            $header_image = $path;
+        }
+
 
         // dd($request->all());
 
@@ -43,10 +50,36 @@ class AboutController extends Controller
             'title' => $title,
             'description' => $description,
             'video_url' => $video_url,
-            'status' => $status
+            'status' => $status,
+            'header_image' => $header_image ?? null,
         ]);
 
         // output
+        return redirect('/about');
+    }
+
+    public function store(Request $request)
+    {
+        $title = $request->title;
+        $description = $request->description;
+        $video_url = $request->video_url;
+        $status = $request->status;
+
+        // handle upload file
+        $header_image = null;
+        if ($request->hasFile('header_image')) {
+            $header_image = $request->file('header_image')->store('about_headers', 'public');
+        }
+
+        // proses simpan
+        About::create([
+            'title' => $title,
+            'description' => $description,
+            'video_url' => $video_url,
+            'status' => $status,
+            'header_image' => $header_image
+        ]);
+
         return redirect('/about');
     }
 
@@ -82,5 +115,10 @@ class AboutController extends Controller
         $about->delete();
 
         return redirect()->route('about.index')->with('success', 'Data berhasil dihapus');
+    }
+
+    public function aboutDetail()
+    {
+        return view('about.detil');
     }
 }

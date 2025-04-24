@@ -9,7 +9,7 @@ class About extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'description', 'video_url', 'status'];
+    protected $fillable = ['title', 'description', 'video_url', 'status', 'header_image'];
 
     protected $attributes = [
         'status' => 'active',
