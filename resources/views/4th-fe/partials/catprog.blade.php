@@ -2,8 +2,8 @@
 <div class="container-xxl py-5 category">
     <div class="container">
         <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-            <h6 class="section-title bg-white text-center text-primary px-3">Categories</h6>
-            <h1 class="mb-5">Courses Categories</h1>
+            <h6 class="section-title bg-white text-center text-primary px-3">Program</h6>
+            <h1 class="mb-5">Agenda Rutin</h1>
         </div>
         <div class="row g-3">
             <div class="col-lg-7 col-md-6">
@@ -11,7 +11,7 @@
                     @foreach ($catprogs->take(3) as $key => $cat)
                         <div class="{{ $key == 0 ? 'col-lg-12' : 'col-lg-6' }} col-md-12 wow zoomIn"
                             data-wow-delay="0.{{ $key + 1 }}s">
-                            <a class="position-relative d-block overflow-hidden" href="#">
+                            <a class="position-relative d-block overflow-hidden" href="{{ url('/detilStudy') }}">
                                 <img class="img-fluid" src="{{ asset($cat->image_path) }}" alt="">
                                 <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3"
                                     style="margin: 1px;">

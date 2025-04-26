@@ -16,13 +16,22 @@ class LogoController extends Controller
         return view('logos.index', compact('logos'));
     }
 
+    public function buatLogos()
+    {
+        $logo = Logo::first(); // Ambil satu logo saja
+        return view('4th-fe.partials.navbar', compact('logo'));
+    }
+
+
     public function create() {}
 
-    public function store(Request $request)
+    public function storeIniBalikinAjaKloStoreLogoGagal(Request $request)
     {
         // input
         $name = $request->name;
-        $deskripsi = $request->deskripsi;
+        $image_path = $request->image_path;
+        $image_path = $request->image_path;
+
 
         if ($request->hasFile('image_path')) {
             $path_loc = $request->file('image_path');
@@ -35,11 +44,59 @@ class LogoController extends Controller
         $simpan = Logo::create([
             'name' => $name,
             'image_path' => $url->getPath() . '/' . $url->getFilename(),
+            'address' => $request->address,
+            'phone' => $request->phone,
+            'email' => $request->email,
+            'facebook' => $request->facebook,
+            'twitter' => $request->twitter,
+            'instagram' => $request->instagram,
+            'youtube' => $request->youtube,
         ]);
+
 
         // output
         return redirect('/logos');
     }
+
+    public function store(Request $request)
+    {
+        // Validasi input
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'image_path' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'address' => 'required|string',
+            'phone' => 'nullable|string',
+            'email' => 'nullable|email',
+            'facebook' => 'nullable|string',
+            'twitter' => 'nullable|string',
+            'instagram' => 'nullable|string',
+            'youtube' => 'nullable|string',
+        ]);
+
+        // Proses upload gambar
+        if ($request->hasFile('image_path')) {
+            $image = $request->file('image_path');
+            $imageName = $image->hashName(); // generate nama unik
+            $image->move(public_path('storage/image'), $imageName); // simpan ke folder public/storage/image
+        }
+
+        // Simpan data ke database
+        Logo::create([
+            'name' => $request->name,
+            'image_path' => 'storage/image/' . $imageName,
+            'address' => $request->address,
+            'phone' => $request->phone,
+            'email' => $request->email,
+            'facebook' => $request->facebook,
+            'twitter' => $request->twitter,
+            'instagram' => $request->instagram,
+            'youtube' => $request->youtube,
+        ]);
+
+        // Redirect
+        return redirect('/logos')->with('success', 'Data logo berhasil ditambahkan.');
+    }
+
 
     public function edit(Logo $logo)
     {
@@ -60,7 +117,15 @@ class LogoController extends Controller
 
         $data = [
             'name' => $request->name,
+            'address' => $request->address,
+            'phone' => $request->phone,
+            'email' => $request->email,
+            'facebook' => $request->facebook,
+            'twitter' => $request->twitter,
+            'instagram' => $request->instagram,
+            'youtube' => $request->youtube,
         ];
+
 
         if ($request->hasFile('image_path')) {
             $image_path = $request->file('image_path');
@@ -80,13 +145,6 @@ class LogoController extends Controller
             return back()->withErrors('Gagal memperbarui slider');
         }
     }
-
-    // public function destroy(Logo $logo)
-    // {
-    //     $logo = decrypt($logo);
-    //     $delete = Logo::where('id', $logo)->delete();
-    //     return redirect('/logos');
-    // }
 
     public function delete($id)
     {

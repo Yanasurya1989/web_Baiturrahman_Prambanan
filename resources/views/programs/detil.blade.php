@@ -1,7 +1,6 @@
 @extends('4th-fe.detile.master4th-fe')
 
 @section('content')
-    @include('4th-fe.partials.navbar')
     <style>
         .container-about {
             max-width: 1200px;
@@ -19,90 +18,126 @@
             min-width: 300px;
         }
 
+        .card-list {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            gap: 20px;
+            padding-bottom: 20px;
+        }
+
+        .card-item {
+            flex: 0 0 auto;
+            width: 300px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        .card-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-item img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .card-body {
+            padding: 15px;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .card-text {
+            font-size: 0.95rem;
+            color: #555;
+        }
+
         .sidebar {
             flex: 0 1 300px;
             min-width: 250px;
         }
 
-        .video-float-left {
-            position: relative;
-            padding-bottom: 56.25%;
-            /* 16:9 Aspect Ratio */
-            height: 0;
-            overflow: hidden;
-            margin-bottom: 20px;
-            border-radius: 8px;
-        }
-
-        .video-float-left iframe,
-        .video-float-left video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 8px;
-        }
-
         @media (max-width: 768px) {
-            .video-float-left {
-                margin: 0 auto 20px;
-                width: 100%;
-                /* Make sure video fits within the screen width */
-            }
-
             .container-about {
                 flex-direction: column;
+            }
+
+            .card-list {
+                flex-direction: column;
+            }
+
+            .card-item {
+                width: 100%;
             }
         }
     </style>
 
-    <!-- Header Image -->
-    @if ($about && $about->header_image)
+    @if ($study && $study->header_image)
         <div class="w-100" style="max-height: 300px; overflow: hidden; position: relative;">
-            <img src="{{ asset('storage/' . $about->header_image) }}" class="w-100" style="object-fit: cover; height: 300px;"
+            <img src="{{ asset('storage/' . $study->header_image) }}" class="w-100" style="object-fit: cover; height: 300px;"
                 alt="Header Image">
             <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
                 style="background: rgba(0,0,0,0.5);">
-                <h1 class="text-white text-center fw-bold">{{ $about->title }}</h1>
+                <h1 class="text-white text-center fw-bold">{{ $study->title }}</h1>
             </div>
         </div>
     @endif
 
-    <!-- Main Content + Sidebar -->
     <div class="container-about">
         <div class="main-content">
-            @if ($about)
-                <div class="video-float-left">
-                    @if (Str::contains($about->video_url, 'youtube'))
-                        <iframe src="{{ str_replace('watch?v=', 'embed/', $about->video_url) }}" frameborder="0"
-                            allowfullscreen></iframe>
-                    @else
-                        <video controls>
-                            <source src="{{ asset($about->video_url) }}" type="video/mp4">
-                            Browser tidak mendukung tag video.
-                        </video>
-                    @endif
+            <div class="container-xxl py-2">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <!-- Video Section Start -->
+                        <div class="container mt-5">
+                            <div class="text-center">
+                                <div class="row justify-content-center">
+                                    @foreach ($study as $study)
+                                        <div class="col-lg-3 col-md-6 text-center mb-4">
+                                            <div class="card shadow-sm">
+                                                <div class="ratio ratio-16x9">
+                                                    <!-- Video Embed -->
+                                                    <iframe width="560" height="315" src="{{ $study->link }}"
+                                                        title="YouTube video player" frameborder="0"
+                                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                                        referrerpolicy="strict-origin-when-cross-origin"
+                                                        allowfullscreen></iframe>
+                                                </div>
+                                                <div class="card-body text-center">
+                                                    <h5 class="card-title">{{ Str::limit($study->judul, 50) }}</h5>
+                                                    <p class="card-text">{{ Str::limit($study->deskripsi, 100) }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Video Section End -->
+                    </div>
                 </div>
+            </div>
 
-                <h2 class="text-2xl font-bold mb-2">{{ $about->title }}</h2>
-                <p>{!! nl2br(e($about->description)) !!}</p>
-            @else
-                <p>Data belum tersedia.</p>
-            @endif
         </div>
 
-        <!-- Sidebar -->
         <div class="sidebar bg-light p-4 rounded shadow-sm">
             <h4 class="mb-3">Berita Terbaru</h4>
-
             @if (isset($news) && $news->count())
                 <ul class="list-unstyled">
                     @foreach ($news as $item)
                         <li class="mb-3">
                             <div class="d-flex gap-2">
                                 @if ($item->gambar)
-                                    <img src="{{ asset($item->gambar) }}" alt="gambar"
+                                    <img src="{{ asset($item->gambar) }}"
                                         style="width: 60px; height: 60px; object-fit: cover; border-radius: 6px;">
                                 @endif
                                 <div>
@@ -123,16 +158,14 @@
             @endif
 
             <hr class="my-4">
-
             <h4 class="mb-3">Header Terbaru</h4>
-
             @if (isset($headers) && $headers->count())
                 <ul class="list-unstyled">
                     @foreach ($headers as $header)
                         <li class="mb-3">
                             <div class="d-flex gap-2">
                                 @if ($header->gambar)
-                                    <img src="{{ asset($header->gambar) }}" alt="gambar"
+                                    <img src="{{ asset($header->gambar) }}"
                                         style="width: 60px; height: 60px; object-fit: cover; border-radius: 6px;">
                                 @endif
                                 <div>
@@ -149,40 +182,14 @@
             @endif
 
             <hr class="my-4">
-
             <h4 class="mb-3">Pengurus</h4>
             @foreach ($teams as $team)
                 <div class="mb-3 d-flex align-items-center">
                     <img src="{{ asset($team->gambar) }}" alt="{{ $team->nama }}"
-                        style="width: 60px; height: 60px; object-fit: cover;" class="me-2 rounded-circle">
-                    <div>
-                        <strong>{{ $team->nama }}</strong><br>
+                        style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;">
+                    <div class="ms-2">
+                        <div class="fw-bold">{{ $team->nama }}</div>
                         <small class="text-muted">{{ $team->jabatan }}</small>
-                    </div>
-                </div>
-            @endforeach
-
-            <hr>
-
-            <h4 class="mb-3">Unit Pendidikan</h4>
-            @foreach ($units as $unit)
-                <div class="mb-3">
-                    <img src="{{ asset($unit->gambar) }}" alt="{{ $unit->judul }}" class="rounded-circle me-3"
-                        style="width: 60px; height: 60px; object-fit: cover;">
-                    <strong>{{ $unit->judul }}</strong>
-                </div>
-            @endforeach
-
-            <hr>
-
-            <h4 class="mb-3">Program</h4>
-            @foreach ($catprogs as $program)
-                <div class="d-flex align-items-center mb-3">
-                    <img src="{{ asset('storage/' . $program->image_path) }}" alt="{{ $program->title }}"
-                        class="rounded-circle me-3" style="width: 60px; height: 60px; object-fit: cover;">
-                    <div>
-                        <strong>{{ $program->title }}</strong><br>
-                        <small class="text-muted">{{ $program->subtitle }}</small>
                     </div>
                 </div>
             @endforeach

@@ -5,30 +5,38 @@
             <!-- Kolom Kiri: Identitas Lembaga -->
             <div class="col-md-6 d-flex flex-column">
                 <div class="d-flex align-items-center mb-3">
-                    @foreach ($logos as $logo)
-                        <img src="{{ asset($logo->image_path) }}" alt="Logo" style="height: 60px; width: auto;"
+                    @if ($logos)
+                        <!-- Memastikan ada logo -->
+                        <img src="{{ asset($logos->image_path) }}" alt="Logo" style="height: 60px; width: auto;"
                             class="me-3">
                         <div class="d-flex flex-column text-white">
                             <span class="fw-bold" style="font-size: 1.25rem;">Yayasan Baiturrahman</span>
                             <span class="text-secondary" style="font-size: 1rem;">Prambanan</span>
                         </div>
-                    @endforeach
+                    @else
+                        <p>Logo tidak tersedia.</p>
+                    @endif
                 </div>
 
-                <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>Jl. Contoh No.123, Prambanan, Sleman, DIY</p>
-                <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+62 812-3456-7890</p>
-                <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@baiturrahman.or.id</p>
+                @if ($logos)
+                    <!-- Menampilkan kontak jika logo ada -->
+                    <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>{{ $logos->address }}</p>
+                    <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>{{ $logos->phone }}</p>
+                    <p class="mb-2"><i class="fa fa-envelope me-3"></i>{{ $logos->email }}</p>
 
-                <div class="d-flex pt-2 mt-auto">
-                    <a class="btn btn-outline-light btn-social me-2" href="https://facebook.com"><i
-                            class="fab fa-facebook-f"></i></a>
-                    <a class="btn btn-outline-light btn-social me-2" href="https://twitter.com"><i
-                            class="fab fa-twitter"></i></a>
-                    <a class="btn btn-outline-light btn-social me-2" href="https://instagram.com"><i
-                            class="fab fa-instagram"></i></a>
-                    <a class="btn btn-outline-light btn-social" href="https://youtube.com"><i
-                            class="fab fa-youtube"></i></a>
-                </div>
+                    <div class="d-flex pt-2 mt-auto">
+                        <a class="btn btn-outline-light btn-social me-2" href="{{ $logos->facebook }}"><i
+                                class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-outline-light btn-social me-2" href="{{ $logos->twitter }}"><i
+                                class="fab fa-twitter"></i></a>
+                        <a class="btn btn-outline-light btn-social me-2" href="{{ $logos->instagram }}"><i
+                                class="fab fa-instagram"></i></a>
+                        <a class="btn btn-outline-light btn-social" href="{{ $logos->youtube }}"><i
+                                class="fab fa-youtube"></i></a>
+                    </div>
+                @else
+                    <p>Data kontak belum tersedia.</p>
+                @endif
             </div>
 
             <!-- Kolom Kanan: Maps -->
@@ -42,14 +50,14 @@
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Footer Copyright -->
-    <div class="container">
-        <div class="copyright">
-            <div class="row">
-                <div class="col text-center">
-                    &copy; <a class="border-bottom" href="#">Baiturrahman</a>, Prambanan. All Rights Reserved.
-                </div>
+<!-- Footer Copyright -->
+<div class="container">
+    <div class="copyright">
+        <div class="row">
+            <div class="col text-center">
+                &copy; <a class="border-bottom" href="#">Baiturrahman</a>, Prambanan. All Rights Reserved.
             </div>
         </div>
     </div>

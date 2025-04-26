@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Logo;
 use App\Models\Unit;
 use Illuminate\Http\Request;
 
@@ -51,17 +52,13 @@ class UnitController extends Controller
         return redirect('/unit');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Unit $unit)
+    public function show($id)
     {
-        //
+        $unit = Unit::findOrFail($id);
+        $logos = Logo::first();
+        return view('unit.show', compact('unit', 'logos'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Unit $unit)
     {
         //

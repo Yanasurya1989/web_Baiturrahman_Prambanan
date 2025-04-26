@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Logo;
 use App\Models\News;
 use Illuminate\Http\Request;
 
@@ -24,17 +25,11 @@ class NewsController extends Controller
     }
 
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         // input
@@ -59,33 +54,13 @@ class NewsController extends Controller
         return redirect('/news');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(News $news)
+    public function show($id)
     {
-        //
+        $news = News::findOrFail($id);
+        $logos = Logo::all();
+        return view('news.show', compact('news', 'logos'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(News $news)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, News $news)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($news)
     {
         $news = decrypt($news);

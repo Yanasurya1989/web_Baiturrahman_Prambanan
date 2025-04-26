@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Logo;
 use App\Models\Header;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -11,14 +13,13 @@ class HeaderController extends Controller
 {
     public function index()
     {
-        // $header = Header::get();
-        // return view('slider.index', compact('header'));
-
-        // Step active/non-active start
-        // $header = Header::where('status', 'active')->get();
-        // return view('slider.index', compact('header'));
-
         $header = Header::all(); // Ambil semua data, baik active maupun non-active
+        foreach ($header as $item) {
+            $item->short_description = Str::limit(strip_tags($item->deskripsi), 10);
+            $item->short_title = Str::limit($item->judul, 5);
+            $item->short_kategori = Str::limit($item->kategori, 5);
+            $item->video_embed_url = str_replace('watch?v=', 'embed/', $item->video_url);
+        }
         return view('slider.index', compact('header'));
     }
 
@@ -26,7 +27,8 @@ class HeaderController extends Controller
     {
         $allSliders = Header::all();
         $slider = Header::findOrFail($id);
-        return view('slider.CarouselFe.detil', compact('slider', 'allSliders'));
+        $logos = Logo::all();
+        return view('slider.CarouselFe.detil', compact('logos', 'slider', 'allSliders'));
     }
 
 

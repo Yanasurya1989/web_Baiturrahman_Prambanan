@@ -11,5 +11,12 @@ class Logo extends Model
     protected $fillable = [
         'name',
         'image_path',
+        'address',
+        'phone',
+        'email',
+        'facebook',
+        'twitter',
+        'instagram',
+        'youtube',
     ];
 }

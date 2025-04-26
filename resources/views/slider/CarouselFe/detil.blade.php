@@ -1,6 +1,7 @@
 @extends('4th-fe.detile.master4th-fe')
 
 @section('content')
+    @include('4th-fe.partials.navbar')
     <!-- Hero Section -->
     <div class="hero-section position-relative text-center text-white"
         style="

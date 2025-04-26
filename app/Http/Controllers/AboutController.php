@@ -2,15 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\News;
 use App\Models\About;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class AboutController extends Controller
 {
     public function index()
     {
         $abouts = About::all();
+        foreach ($abouts as $item) {
+            $item->short_description = Str::limit(strip_tags($item->description), 10);
+            $item->short_title = Str::limit($item->title, 5);
+            $item->video_embed_url = str_replace('watch?v=', 'embed/', $item->video_url);
+        }
         return view('about.index', compact('abouts'));
     }
 

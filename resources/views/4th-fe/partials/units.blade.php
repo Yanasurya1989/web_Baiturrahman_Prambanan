@@ -16,7 +16,12 @@
                             </div>
                             <h5 class="mt-3">{{ $unit->judul }}</h5>
                             <p>{{ $unit->deskripsi }}</p>
-                            <a href="#" class="btn btn-primary">Daftar</a>
+                            <div class="mt-3">
+                                <a href="{{ route('unit.show', $unit->id) }}" class="btn btn-secondary w-100 mb-2"
+                                    style="border-radius: 10px;">Detil</a>
+                                <a href="#" class="btn btn-primary w-100" style="border-radius: 10px;">Daftar</a>
+                            </div>
+
                         </div>
                     </div>
                 @endforeach

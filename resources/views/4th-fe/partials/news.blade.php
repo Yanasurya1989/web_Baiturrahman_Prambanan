@@ -33,8 +33,11 @@
                                     alt="{{ $item->judul }}">
                             </div>
                             <div class="d-flex justify-content-center mt-2">
-                                <a href="#" class="btn btn-sm btn-primary px-3 border-end"
+
+                                <a href="{{ route('news.show', $item->id) }}"
+                                    class="btn btn-sm btn-primary px-3 border-end"
                                     style="border-radius: 30px 0 0 30px;">Read More</a>
+
                                 <a href="#" class="btn btn-sm btn-primary px-3"
                                     style="border-radius: 0 30px 30px 0;">Join Now</a>
                             </div>

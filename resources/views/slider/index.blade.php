@@ -74,9 +74,9 @@
                         <tbody>
                             @foreach ($header as $data)
                                 <tr>
-                                    <td>{{ $data['kategori'] }}</td>
-                                    <td>{{ $data['judul'] }}</td>
-                                    <td>{{ $data['deskripsi'] }}</td>
+                                    <td>{{ $data->short_kategori }}</td>
+                                    <td>{{ $data->short_title }}</td>
+                                    <td>{{ $data->short_description }}</td>
                                     <td>
                                         <button type="button" class="btn btn-primary" data-toggle="modal"
                                             data-target="#imageModal{{ $data['id'] }}">

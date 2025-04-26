@@ -59,7 +59,7 @@
                 <a class="collapse-item" href="{{ url('/structure') }}">Pengurus</a>
                 <a class="collapse-item" href="{{ url('/news') }}">Berita</a>
                 {{-- <a class="collapse-item" href="{{ url('/study') }}">Kajian</a> --}}
-                <a class="collapse-item" href="{{ url('/admin/testimonials') }}">Testimony</a>
+                <a class="collapse-item" href="{{ url('/testimonials') }}">Testimony</a>
             </div>
         </div>
     </li>
@@ -74,7 +74,7 @@
         <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 {{-- <h6 class="collapse-header">Header</h6> --}}
-                <a class="collapse-item" href="#">Logo</a>
+                <a class="collapse-item" href="{{ url('/logos') }}">Logo</a>
                 <a class="collapse-item" href="#">Navbar</a>
             </div>
         </div>
@@ -90,7 +90,7 @@
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 {{-- <h6 class="collapse-header">Header</h6> --}}
-                <a class="collapse-item" href="#">Logo</a>
+                <a class="collapse-item" href="{{ url('/logos') }}">Logo</a>
                 <a class="collapse-item" href="#">Maps</a>
             </div>
         </div>

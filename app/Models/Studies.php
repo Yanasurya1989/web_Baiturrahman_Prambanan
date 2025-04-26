@@ -13,5 +13,6 @@ class Studies extends Model
         'judul',
         'deskripsi',
         'link',
+        'header_image'
     ];
 }

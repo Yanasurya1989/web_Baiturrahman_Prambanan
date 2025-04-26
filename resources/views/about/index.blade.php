@@ -86,9 +86,12 @@
                         <tbody>
                             @foreach ($abouts as $data)
                                 <tr>
-                                    <td>{{ $data['title'] }}</td>
-                                    <td>{{ $data['description'] }}</td>
-                                    <td>{{ $data['video_url'] }}</td>
+                                    <td>{{ $data->short_title }}</td>
+                                    <td>{{ $data->short_description }}</td>
+                                    <td>
+                                        <iframe width="200" height="100" src="{{ $data->video_url }}" frameborder="0"
+                                            allowfullscreen></iframe>
+                                    </td>
                                     <td>
                                         <form action="{{ route('about.toggleStatus', $data->id) }}" method="POST">
                                             @csrf
@@ -100,21 +103,26 @@
                                         </form>
                                     </td>
                                     <td>
+                                        <!-- Button trigger modal -->
                                         <button type="button" class="btn btn-warning" data-toggle="modal"
-                                            data-target="#editSliderModal">
+                                            data-target="#editAboutModal{{ $data->id }}">
                                             Edit
                                         </button>
-                                        {{-- Modal --}}
-                                        <div class="modal fade" tabindex="-1" id="editSliderModal"
-                                            aria-labelledby="editSliderModalLabel" aria-hidden="true">
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="editAboutModal{{ $data->id }}" tabindex="-1"
+                                            aria-labelledby="editAboutModalLabel{{ $data->id }}" aria-hidden="true">
                                             <div class="modal-dialog">
-                                                <form action="#" method="POST" enctype="multipart/form-data">
+                                                <form action="{{ route('about.update', $data->id) }}" method="POST"
+                                                    enctype="multipart/form-data">
                                                     @csrf
                                                     @method('PATCH')
 
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title">Edit Slider</h5>
+                                                            <h5 class="modal-title"
+                                                                id="editAboutModalLabel{{ $data->id }}">Edit About
+                                                            </h5>
                                                             <button type="button" class="close" data-dismiss="modal"
                                                                 aria-label="Close">
                                                                 <span aria-hidden="true">&times;</span>
@@ -122,37 +130,42 @@
                                                         </div>
                                                         <div class="modal-body">
                                                             <div class="form-group">
-                                                                <label for="exampleInputEmail1"
-                                                                    class="form-label">Judul</label>
-                                                                <input type="text" class="form-control" id="judul"
-                                                                    name="judul" value="{{ $data['judul'] }}">
+                                                                <label for="judul">Judul</label>
+                                                                <input type="text" class="form-control" name="title"
+                                                                    value="{{ $data->title }}">
                                                             </div>
                                                             <div class="mb-3">
-                                                                <label for="exampleInputEmail1"
-                                                                    class="form-label">Deskripsi</label>
-                                                                <input type="text" class="form-control" id="deskripsi"
-                                                                    name="deskripsi" value="{{ $data['deskripsi'] }}">
+                                                                <label for="deskripsi">Deskripsi</label>
+                                                                <textarea class="form-control" name="description" rows="3">{{ $data->description }}</textarea>
                                                             </div>
                                                             <div class="mb-3">
-                                                                <label for="exampleInputEmail1"
-                                                                    class="form-label">Gambar</label>
-                                                                <input type="file" class="form-control" id="gambar"
-                                                                    name="gambar">
-                                                                <img src="{{ asset($data['gambar']) }}" alt=""
-                                                                    height="100">
+                                                                <label for="video_url">Video URL</label>
+                                                                <input type="text" class="form-control"
+                                                                    name="video_url" value="{{ $data->video_url }}">
                                                             </div>
-                                                            <div class="modal-footer">
-
-                                                                <button type="submit"
-                                                                    class="btn btn-primary">Update</button>
+                                                            <div class="mb-3">
+                                                                <label for="gambar">Gambar</label>
+                                                                <input type="file" class="form-control"
+                                                                    name="image">
+                                                                <img src="{{ asset($data->image) }}" alt=""
+                                                                    height="100" class="mt-2">
                                                             </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="submit" class="btn btn-primary">Update</button>
                                                         </div>
                                                     </div>
                                                 </form>
                                             </div>
                                         </div>
-                                        <a href="#" class="btn btn-danger"
-                                            onclick="return confirm('Yakin akan dihapus?')">Hapus</a>
+
+                                        <form action="{{ route('about.destroy', $data->id) }}" method="POST"
+                                            class="d-inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-danger"
+                                                onclick="return confirm('Yakin akan dihapus?')">Hapus</button>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach

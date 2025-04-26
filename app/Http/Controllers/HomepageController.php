@@ -14,6 +14,7 @@ use App\Models\Testimonial;
 use Illuminate\Http\Request;
 use App\Models\SectionSetting;
 use App\Helpers\SectionVisibility;
+use App\Models\Catprog;
 
 class HomepageController extends Controller
 {
@@ -28,20 +29,12 @@ class HomepageController extends Controller
             $data->short_description = substr($data->deskripsi, 0, 100) . '...';
         }
 
-        $logos = Logo::get();
+        // $logos = Logo::get();
+        $logos = Logo::first();
         $news = News::get();
         $programs = Program::where('status', 1)->take(4)->get();
         $testimonials = Testimonial::latest()->get();
         $catprogs = \App\Models\Catprog::all();
-
-        // $about = About::where('status', 'active')->first();
-        // foreach ($about as $data) {
-        //     $data->short_description = substr($data->about, 0, 100) . '...';
-        // }
-
-        // if ($about) {
-        //     $about->video_url = str_replace("watch?v=", "embed/", $about->video_url);
-        // }
 
         $about = About::where('status', 'active')->first();
         if ($about) {
@@ -107,7 +100,24 @@ class HomepageController extends Controller
 
     public function aboutDetil()
     {
+        $news = News::latest()->take(3)->get();
         $about = About::where('status', 'active')->first();
-        return view('about.detil', compact('about'));
+        $headers = Header::where('status', 'active')->latest()->take(3)->get();
+        $teams = Structurs::latest()->take(3)->get();
+        $units = Unit::latest()->get();
+        $catprogs = Catprog::latest()->get();
+        $logos = Logo::all();
+        return view('about.detil', compact('about', 'news', 'headers', 'teams', 'units', 'catprogs', 'logos'));
+    }
+
+    public function detilStudy()
+    {
+        $study = About::where('status', 'active')->first();
+        $news = News::latest()->take(3)->get();
+        $about = About::where('status', 'active')->first();
+        $teams = Structurs::latest()->take(3)->get();
+        $units = Unit::latest()->get();
+        $catprogs = Catprog::latest()->get();
+        return view('programs.detil', compact('study', 'news', 'about', 'teams', 'units', 'catprogs'));
     }
 }

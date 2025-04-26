@@ -17,6 +17,9 @@ use App\Http\Controllers\StructurController;
 use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\SectionSettingController;
 
+
+
+
 Route::get('/', function () {
     $catprogs = \App\Models\Catprog::all(); // kirim data ke layout
     return view('4th-fe.index', compact('catprogs'));
@@ -49,10 +52,10 @@ Route::middleware(['auth'])->group(function () {
 
 Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/logos', [LogoController::class, 'index']);
-    Route::post('/logos/post', [LogoController::class, 'store'])->middleware('auth');
-    Route::get('/logos/edit/{logo}', [LogoController::class, 'edit'])->middleware('auth');
-    Route::patch('logos/update/{logo}', [LogoController::class, 'update'])->middleware('auth');
-    Route::get('/logos/delete/{id}', [LogoController::class, 'delete'])->middleware('auth');
+    Route::post('/logos', [LogoController::class, 'store']); // <- disesuaikan
+    Route::get('/logos/edit/{logo}', [LogoController::class, 'edit']);
+    Route::patch('logos/update/{logo}', [LogoController::class, 'update']);
+    Route::delete('/logos/delete/{id}', [LogoController::class, 'delete']);
 });
 
 
@@ -96,23 +99,28 @@ Route::get('/insertSlider', [HeaderController::class, 'createSummer']);
 Route::get('/unit', [UnitController::class, 'index'])->middleware('auth');
 Route::post('/unit/store', [UnitController::class, 'store'])->middleware('auth');
 Route::get('unit/delete/{id}', [UnitController::class, 'destroy'])->middleware('auth');
+Route::get('/unit/{unit}', [UnitController::class, 'show'])->name('unit.show');
+
 
 // Kajian
 Route::get('/study', [Study::class, 'index'])->middleware('auth')->middleware('auth');
 Route::post('/study/store', [Study::class, 'store'])->middleware('auth');
 Route::get('/study/delete/{id}', [Study::class, 'destroy'])->middleware('auth');
+Route::get('/fe_study', [Study::class, 'detilStudy']);
 
 // News
 Route::get('/news', [NewsController::class, 'index'])->middleware('auth');
 Route::post('/news/store', [NewsController::class, 'store'])->middleware('auth');
 Route::get('/news/delete/{id}', [NewsController::class, 'destroy'])->middleware('auth');
 Route::get('/news/frontend', [NewsController::class, 'frontend']);
-
+Route::get('/news/{id}', [NewsController::class, 'show'])->name('news.show');
 
 // Structures
 Route::post('/structure/store', [StructurController::class, 'store'])->middleware('auth');
 Route::get('/structure', [StructurController::class, 'index'])->middleware('auth');
 Route::get('/structure/delete/{id}', [StructurController::class, 'destroy'])->middleware('auth');
+Route::get('/news/{id}', [NewsController::class, 'show'])->name('news.show');
+
 
 // About
 Route::resource('about', AboutController::class);
@@ -124,11 +132,8 @@ Route::post('/about/store', [AboutController::class, 'store'])->middleware('auth
 Route::patch('/about/{id}/toggle-status', [AboutController::class, 'toggleStatus'])->name('about.toggleStatus');
 Route::get('/detilAbout', [HomepageController::class, 'aboutDetil']);
 
-
 // Program
 Route::resource('programs', \App\Http\Controllers\ProgramController::class);
-
-
 
 // Route::get('/login', [AuthController::class, 'login']);
 
@@ -139,3 +144,6 @@ Route::get('/fe-master', [FeIncluded::class, 'index']);
 // kajian
 Route::get('/fstudy', [FStudy::class, 'index']);
 // Frontend end
+
+// Detil
+Route::get('/detilStudy', [HomepageController::class, 'detilStudy']);

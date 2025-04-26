@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\About;
+use App\Models\Catprog;
+use App\Models\Header;
 use App\Models\Studies;
 use Illuminate\Http\Request;
 
 class Study extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         $studies = Studies::get();
@@ -17,17 +18,13 @@ class Study extends Controller
         return view('study.index', compact('studies'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(Request $request)
     {
         // input
@@ -48,33 +45,25 @@ class Study extends Controller
         return redirect('/study');
     }
 
-    /**
-     * Display the specified resource.
-     */
+
     public function show(Studies $studies)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit(Studies $studies)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(Request $request, Studies $studies)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy($studies)
     {
         $studies = decrypt($studies);
@@ -82,5 +71,14 @@ class Study extends Controller
         $delete = Studies::where('id', $studies)->delete();
 
         return redirect('/study');
+    }
+
+    public function detilStudy()
+    {
+        $fstudy = Studies::get();
+        $header = About::get();
+        $catprog = Catprog::get();
+        $studies = Studies::get();
+        return view('programs.detil', compact('fstudy', 'header', 'catprog', 'studies'));
     }
 }
