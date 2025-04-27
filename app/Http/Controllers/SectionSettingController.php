@@ -36,9 +36,24 @@ class SectionSettingController extends Controller
         return response()->json(['success' => false], 404);
     }
 
+    // public function updateOrderHapusIniKloYangBawahUdahBisa(Request $request)
+    // {
+    //     $order = $request->order;
+    //     foreach ($order as $index => $sectionName) {
+    //         SectionSetting::where('section_name', $sectionName)->update(['order' => $index]);
+    //     }
+
+    //     return response()->json(['success' => true]);
+    // }
+
     public function updateOrder(Request $request)
     {
         $order = $request->order;
+
+        if (!is_array($order)) {
+            return response()->json(['success' => false, 'message' => 'Invalid data format'], 400);
+        }
+
         foreach ($order as $index => $sectionName) {
             SectionSetting::where('section_name', $sectionName)->update(['order' => $index]);
         }

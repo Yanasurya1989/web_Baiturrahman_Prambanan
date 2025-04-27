@@ -97,10 +97,15 @@
                             alert('Gagal mengubah status.');
                         }
                     })
+                    // .catch(error => {
+                    //     console.error(error);
+                    //     alert('Terjadi kesalahan.');
+                    // });
                     .catch(error => {
-                        console.error(error);
-                        alert('Terjadi kesalahan.');
+                        console.error('Error:', error);
+                        alert('Terjadi kesalahan saat mengubah status.');
                     });
+
             });
         });
     </script>

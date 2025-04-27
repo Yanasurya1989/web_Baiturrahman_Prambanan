@@ -78,7 +78,7 @@ class Study extends Controller
         $fstudy = Studies::get();
         $header = About::get();
         $catprog = Catprog::get();
-        $studies = Studies::get();
-        return view('programs.detil', compact('fstudy', 'header', 'catprog', 'studies'));
+        // $studies = Studies::get();
+        return view('programs.detil', compact('fstudy', 'header', 'catprog'));
     }
 }

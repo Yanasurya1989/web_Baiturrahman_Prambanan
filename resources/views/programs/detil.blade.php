@@ -1,6 +1,7 @@
 @extends('4th-fe.detile.master4th-fe')
 
 @section('content')
+
     <style>
         .container-about {
             max-width: 1200px;
@@ -18,65 +19,28 @@
             min-width: 300px;
         }
 
-        .card-list {
-            display: flex;
-            flex-wrap: nowrap;
-            overflow-x: auto;
-            gap: 20px;
-            padding-bottom: 20px;
-        }
-
-        .card-item {
-            flex: 0 0 auto;
-            width: 300px;
-            background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            transition: transform 0.3s;
-        }
-
-        .card-item:hover {
-            transform: translateY(-5px);
-        }
-
-        .card-item img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-        }
-
-        .card-body {
-            padding: 15px;
-        }
-
-        .card-title {
-            font-size: 1.1rem;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .card-text {
-            font-size: 0.95rem;
-            color: #555;
-        }
-
         .sidebar {
             flex: 0 1 300px;
             min-width: 250px;
         }
 
+        /* Card Styling */
+        .card-item {
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .card-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
         @media (max-width: 768px) {
             .container-about {
                 flex-direction: column;
-            }
-
-            .card-list {
-                flex-direction: column;
-            }
-
-            .card-item {
-                width: 100%;
             }
         }
     </style>
@@ -94,39 +58,42 @@
 
     <div class="container-about">
         <div class="main-content">
-            <div class="container-xxl py-2">
+            <div class="container-xxl py-4">
                 <div class="container">
-                    <div class="row justify-content-center">
-                        <!-- Video Section Start -->
-                        <div class="container mt-5">
-                            <div class="text-center">
-                                <div class="row justify-content-center">
-                                    @foreach ($study as $study)
-                                        <div class="col-lg-3 col-md-6 text-center mb-4">
-                                            <div class="card shadow-sm">
-                                                <div class="ratio ratio-16x9">
-                                                    <!-- Video Embed -->
-                                                    <iframe width="560" height="315" src="{{ $study->link }}"
-                                                        title="YouTube video player" frameborder="0"
-                                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                                        referrerpolicy="strict-origin-when-cross-origin"
-                                                        allowfullscreen></iframe>
+                    <div class="row g-4">
+                        @if (isset($studydetillist) && $studydetillist->count())
+                            @foreach ($studydetillist as $item)
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="card card-item h-100">
+                                        <div class="ratio ratio-16x9">
+                                            @if ($item && isset($item->link))
+                                                <iframe src="{{ $item->link }}" frameborder="0"
+                                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                    allowfullscreen>
+                                                </iframe>
+                                            @else
+                                                <div class="d-flex align-items-center justify-content-center h-100">
+                                                    <p>Video tidak tersedia.</p>
                                                 </div>
-                                                <div class="card-body text-center">
-                                                    <h5 class="card-title">{{ Str::limit($study->judul, 50) }}</h5>
-                                                    <p class="card-text">{{ Str::limit($study->deskripsi, 100) }}</p>
-                                                </div>
-                                            </div>
+                                            @endif
                                         </div>
-                                    @endforeach
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ $item->judul ?? 'Judul Video' }}</h5>
+                                            <p class="card-text">{{ $item->deskripsi ?? '' }}</p>
+                                        </div>
+                                    </div>
                                 </div>
+                            @endforeach
+                        @else
+                            <div class="col-12 text-center">
+                                <img src="{{ asset('assets/img/no-video.svg') }}" alt="No Videos" style="max-width: 300px;"
+                                    class="mb-4">
+                                <h5>Belum ada video yang tersedia.</h5>
                             </div>
-                        </div>
-                        <!-- Video Section End -->
+                        @endif
                     </div>
                 </div>
             </div>
-
         </div>
 
         <div class="sidebar bg-light p-4 rounded shadow-sm">
@@ -135,64 +102,26 @@
                 <ul class="list-unstyled">
                     @foreach ($news as $item)
                         <li class="mb-3">
-                            <div class="d-flex gap-2">
-                                @if ($item->gambar)
-                                    <img src="{{ asset($item->gambar) }}"
-                                        style="width: 60px; height: 60px; object-fit: cover; border-radius: 6px;">
+                            <div class="d-flex">
+                                @if ($item->image)
+                                    <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->title }}"
+                                        class="img-fluid rounded me-3"
+                                        style="width: 80px; height: 60px; object-fit: cover;">
                                 @endif
                                 <div>
-                                    <h6 class="mb-1">
-                                        <a href="{{ route('news.show', $item->id) }}"
-                                            class="text-dark text-decoration-none">
-                                            {{ Str::limit($item->judul, 50) }}
-                                        </a>
-                                    </h6>
-                                    <small class="text-muted">{{ $item->created_at->format('d M Y') }}</small>
+                                    <h6 class="mb-1">{{ $item->title }}</h6>
+                                    <small
+                                        class="text-muted">{{ \Illuminate\Support\Str::limit($item->excerpt, 50) }}</small>
                                 </div>
                             </div>
                         </li>
                     @endforeach
                 </ul>
             @else
-                <p class="text-muted">Belum ada berita.</p>
+                <p class="text-muted">Tidak ada berita terbaru.</p>
             @endif
-
-            <hr class="my-4">
-            <h4 class="mb-3">Header Terbaru</h4>
-            @if (isset($headers) && $headers->count())
-                <ul class="list-unstyled">
-                    @foreach ($headers as $header)
-                        <li class="mb-3">
-                            <div class="d-flex gap-2">
-                                @if ($header->gambar)
-                                    <img src="{{ asset($header->gambar) }}"
-                                        style="width: 60px; height: 60px; object-fit: cover; border-radius: 6px;">
-                                @endif
-                                <div>
-                                    <h6 class="mb-1">
-                                        <span class="text-dark">{{ Str::limit($header->judul, 50) }}</span>
-                                    </h6>
-                                </div>
-                            </div>
-                        </li>
-                    @endforeach
-                </ul>
-            @else
-                <p class="text-muted">Belum ada header aktif.</p>
-            @endif
-
-            <hr class="my-4">
-            <h4 class="mb-3">Pengurus</h4>
-            @foreach ($teams as $team)
-                <div class="mb-3 d-flex align-items-center">
-                    <img src="{{ asset($team->gambar) }}" alt="{{ $team->nama }}"
-                        style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;">
-                    <div class="ms-2">
-                        <div class="fw-bold">{{ $team->nama }}</div>
-                        <small class="text-muted">{{ $team->jabatan }}</small>
-                    </div>
-                </div>
-            @endforeach
         </div>
+
     </div>
+
 @endsection

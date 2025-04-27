@@ -118,6 +118,7 @@ class HomepageController extends Controller
         $teams = Structurs::latest()->take(3)->get();
         $units = Unit::latest()->get();
         $catprogs = Catprog::latest()->get();
-        return view('programs.detil', compact('study', 'news', 'about', 'teams', 'units', 'catprogs'));
+        $studydetillist = Studies::get();
+        return view('programs.detil', compact('study', 'news', 'about', 'teams', 'units', 'catprogs', 'studydetillist'));
     }
 }

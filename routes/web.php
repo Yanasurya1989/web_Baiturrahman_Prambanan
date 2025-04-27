@@ -34,14 +34,15 @@ Route::middleware(['auth'])->group(function () {
 });
 
 // routes/web.php
-Route::middleware(['auth', 'is_admin'])->group(function () {
-    Route::get('/admin/section-settings', [SectionSettingController::class, 'index'])->name('section-settings.index');
-    Route::post('/admin/section-settings/toggle', [SectionSettingController::class, 'toggle'])->name('section-settings.toggle');
-});
+// Route::middleware(['auth', 'is_admin'])->group(function () {
+//     Route::get('/admin/section-settings', [SectionSettingController::class, 'index'])->name('section-settings.index');
+//     Route::post('/admin/section-settings/toggle', [SectionSettingController::class, 'toggle'])->name('section-settings.toggle');
+// });
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/admin/section-settings', [SectionSettingController::class, 'index'])->name('section-settings.index');
     Route::post('/admin/section-settings/toggle', [SectionSettingController::class, 'toggle'])->name('section-settings.toggle');
+    Route::post('/admin/section-settings/order', [SectionSettingController::class, 'updateOrder'])->name('section-settings.order');
 });
 
 // routes/web.php

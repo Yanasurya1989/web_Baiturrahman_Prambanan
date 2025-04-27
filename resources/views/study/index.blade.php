@@ -72,7 +72,11 @@
                                 <tr>
                                     <td>{{ $data['judul'] }}</td>
                                     <td>{{ $data['deskripsi'] }}</td>
-                                    <td>{{ $data['link'] }}</td>
+                                    {{-- <td>{{ $data['link'] }}</td> --}}
+                                    <td>
+                                        <iframe width="200" height="100" src="{{ $data->link }}" frameborder="0"
+                                            allowfullscreen></iframe>
+                                    </td>
                                     <td>
                                         <button type="button" class="btn btn-warning" data-toggle="modal"
                                             data-target="#editSliderModal">
