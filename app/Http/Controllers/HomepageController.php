@@ -31,7 +31,13 @@ class HomepageController extends Controller
 
         // $logos = Logo::get();
         $logos = Logo::first();
+
         $news = News::get();
+        // $news = News::where('status', 'active')->get();
+        // foreach ($news as $data) {
+        //     $data->short_description = substr($data->deskripsi, 0, 30) . '...';
+        // }
+
         $programs = Program::where('status', 1)->take(4)->get();
         $testimonials = Testimonial::latest()->get();
         $catprogs = \App\Models\Catprog::all();

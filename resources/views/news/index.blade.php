@@ -3,57 +3,17 @@
 @section('content')
     <div class="container-fluid">
 
-        <!-- Page Heading -->
-        <h1 class="h3 mb-4 text-gray-800">Blank Page</h1>
+        <h1 class="h3 mb-4 text-gray-800">News List</h1>
 
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+                <h6 class="m-0 font-weight-bold text-primary">News Management</h6>
             </div>
             <div class="card-body">
-                <div class="row mb-3">
-                    <div class="col">
-                        <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#addUnitModal">
-                            Add News
-                        </button>
-                        {{-- modal --}}
-                        <div class="modal fade" tabindex="-1" id="addUnitModal" aria-labelledby="addUnitModalLabel"
-                            aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title">Add News</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form action="{{ url('news/store') }}" method="POST" enctype="multipart/form-data">
-                                            @csrf
-                                            <div class="form-group">
-                                                <label for="exampleInputEmail1" class="form-label">Judul</label>
-                                                <input type="text" class="form-control" id="judul" name="judul">
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="exampleInputEmail1" class="form-label">Deskripsi</label>
-                                                <input type="text" class="form-control" id="deskripsi" name="deskripsi">
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="exampleInputEmail1" class="form-label">Gambar</label>
-                                                <input type="file" class="form-control" id="gambar" name="gambar">
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-dismiss="modal">Cancel</button>
-                                                <button type="submit" class="btn btn-primary">Save</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="mb-3">
+                    <a href="{{ url('news/create') }}" class="btn btn-primary">Add News</a>
                 </div>
+
                 <div class="table-responsive">
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
@@ -67,97 +27,38 @@
                         <tbody>
                             @foreach ($news as $data)
                                 <tr>
-                                    <td>{{ $data['judul'] }}</td>
-                                    <td>{{ $data['deskripsi'] }}</td>
-                                    <td>
-                                        <button type="button" class="btn btn-primary" data-toggle="modal"
-                                            data-target="#imageModal{{ $data['id'] }}">
-                                            Lihat Gambar
-                                        </button>
-
-                                        {{-- Modal --}}
-                                        <div class="modal fade" tabindex="-1" id="imageModal{{ $data['id'] }}"
-                                            aria-labelledby="addSliderModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title">View Slider</h5>
-                                                        <button type="button" class="close" data-dismiss="modal"
-                                                            aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <img src="{{ asset($data['gambar']) }}" class="img-fluid"
-                                                            alt="">
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <td>{{ \Illuminate\Support\Str::limit($data->judul, 30) }}</td>
+                                    <td
+                                        style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                        {{ \Illuminate\Support\Str::limit($data->deskripsi, 50) }}
                                     </td>
                                     <td>
-                                        <button type="button" class="btn btn-warning" data-toggle="modal"
-                                            data-target="#editSliderModal">
-                                            Edit
-                                        </button>
+                                        @if ($data->gambar)
+                                            {{-- <img src="{{ $data->gambar }}" alt="Gambar" class="img-thumbnail"
+                                                style="max-width: 100px;"> --}}
 
-                                        {{-- Modal --}}
-                                        <div class="modal fade" tabindex="-1" id="editSliderModal"
-                                            aria-labelledby="editSliderModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <form action="{{ url('/slider/update', encrypt($data['id'])) }}"
-                                                    method="POST" enctype="multipart/form-data">
-                                                    @csrf
-                                                    @method('PATCH')
-
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title">Edit Slider</h5>
-                                                            <button type="button" class="close" data-dismiss="modal"
-                                                                aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="form-group">
-                                                                <label for="exampleInputEmail1"
-                                                                    class="form-label">Judul</label>
-                                                                <input type="text" class="form-control" id="judul"
-                                                                    name="judul" value="{{ $data['judul'] }}">
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label for="exampleInputEmail1"
-                                                                    class="form-label">Deskripsi</label>
-                                                                <input type="text" class="form-control" id="deskripsi"
-                                                                    name="deskripsi" value="{{ $data['deskripsi'] }}">
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label for="exampleInputEmail1"
-                                                                    class="form-label">Gambar</label>
-                                                                <input type="file" class="form-control" id="gambar"
-                                                                    name="gambar">
-                                                                <img src="{{ asset($data['gambar']) }}" alt=""
-                                                                    height="100">
-                                                            </div>
-                                                            <div class="modal-footer">
-
-                                                                <button type="submit"
-                                                                    class="btn btn-primary">Update</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                        <a href="{{ url('/news/delete', encrypt($data['id'])) }}" class="btn btn-danger"
-                                            onclick="return confirm('Yakin akan dihapus?')">Hapus</a>
+                                            <img src="{{ asset('storage/' . $data->gambar) }}" alt="Gambar"
+                                                class="img-thumbnail" style="max-width: 100px;">
+                                        @else
+                                            <p>No Image</p>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <a href="{{ url('news/edit/' . $data->id) }}"
+                                            class="btn btn-warning btn-sm">Edit</a>
+                                        <form action="{{ url('news/delete/' . $data->id) }}" method="POST"
+                                            style="display:inline-block;" onsubmit="return confirm('Are you sure?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
+
             </div>
         </div>
     </div>

@@ -15,8 +15,9 @@
             </div>
 
             <div class="mb-5 text-center">
-                <img src="{{ asset($news->gambar) }}" class="img-fluid rounded shadow-sm"
-                    style="max-height: 300px; object-fit: contain;">
+                {{-- <img src="{{ asset($news->gambar) }}" class="img-fluid rounded shadow-sm"
+                    style="max-height: 300px; object-fit: contain;"> --}}
+                <img class="img-fluid fixed-image" src="{{ asset('storage/' . $news->gambar) }}" alt="{{ $news->judul }}">
             </div>
 
             <div class="mb-5 px-2 px-md-4">
