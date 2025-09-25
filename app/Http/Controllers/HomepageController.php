@@ -7,6 +7,8 @@ use App\Models\News;
 use App\Models\Unit;
 use App\Models\About;
 use App\Models\Header;
+use App\Models\Artikel;
+use App\Models\Catprog;
 use App\Models\Program;
 use App\Models\Studies;
 use App\Models\Structurs;
@@ -14,13 +16,16 @@ use App\Models\Testimonial;
 use Illuminate\Http\Request;
 use App\Models\SectionSetting;
 use App\Helpers\SectionVisibility;
-use App\Models\Catprog;
 
 class HomepageController extends Controller
 {
     public function home()
     {
-        $studies = Studies::latest()->limit(2)->get();
+        // $studies = Studies::latest()->limit(2)->get();
+        $studies = Studies::latest()->take(5)->get(); // ambil 5 kajian terbaru
+        $sections = SectionSetting::where('status', 'active')->orderBy('order')->get();
+        // return view('frontend.index', compact('sections', 'studies'));
+
         $units = Unit::get();
         $structurs = Structurs::get();
 
@@ -72,6 +77,8 @@ class HomepageController extends Controller
         $showTestimonials = in_array('testimonials', $activeSections);
         $showSliders = in_array('headers', $activeSections);
         $showLogos = in_array('logos', $activeSections);
+        // $sections = SectionSetting::orderBy('order')->get();
+        $artikels = Artikel::latest()->take(6)->get();
 
         return view('4th-fe.index', compact(
             'news',
@@ -96,6 +103,7 @@ class HomepageController extends Controller
             'testimonials',
             'visibleSections', // 🔥 Tambahan ini yang penting
             'catprogs',
+            'artikels'
         ));
     }
 
@@ -126,5 +134,22 @@ class HomepageController extends Controller
         $catprogs = Catprog::latest()->get();
         $studydetillist = Studies::get();
         return view('programs.detil', compact('study', 'news', 'about', 'teams', 'units', 'catprogs', 'studydetillist'));
+    }
+
+    public function artikelDetil($id)
+    {
+        $artikel = Artikel::findOrFail($id);
+        $artikels = Artikel::where('id', '!=', $id)
+            ->latest()
+            ->take(5)
+            ->get();
+
+        return view('4th-fe.artikel.show', compact('artikel', 'artikels'));
+    }
+
+    public function artikelIndex()
+    {
+        $artikels = \App\Models\Artikel::latest()->paginate(6); // tampil 6 per halaman
+        return view('4th-fe.artikel.frontend.index', compact('artikels'));
     }
 }

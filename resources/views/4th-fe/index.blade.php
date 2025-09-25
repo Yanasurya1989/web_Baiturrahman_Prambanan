@@ -76,6 +76,18 @@
                 @endif
             @break
 
+            @case('artikel')
+                @if (view()->exists('4th-fe.partials.artikel'))
+                    @include('4th-fe.partials.artikel', ['artikels' => $artikels ?? []])
+                @endif
+            @break
+
+            @case('studies')
+                @if (view()->exists('4th-fe.partials.studies'))
+                    @include('4th-fe.partials.studies', ['studies' => $studies ?? []])
+                @endif
+            @break
+
             @case('testimonials')
                 @if (view()->exists('4th-fe.partials.testimonials'))
                     @include('4th-fe.partials.testimonials', ['testimonials' => $testimonials ?? []])

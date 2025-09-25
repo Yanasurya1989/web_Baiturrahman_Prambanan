@@ -153,3 +153,14 @@ Route::get('/fstudy', [FStudy::class, 'index']);
 
 // Detil
 Route::get('/detilStudy', [HomepageController::class, 'detilStudy']);
+
+// Backend (admin)
+Route::resource('admin/artikel', App\Http\Controllers\Admin\ArtikelController::class);
+
+// Frontend detail artikel
+Route::get('/artikel/{id}', [App\Http\Controllers\HomepageController::class, 'artikelDetil'])
+    ->name('artikel.show');
+
+// Halaman daftar artikel (frontend)
+Route::get('/artikel', [App\Http\Controllers\HomepageController::class, 'artikelIndex'])
+    ->name('artikel.index');

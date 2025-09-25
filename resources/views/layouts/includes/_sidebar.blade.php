@@ -58,6 +58,7 @@
                 <a class="collapse-item" href="{{ url('/catprog/create') }}">Program</a>
                 <a class="collapse-item" href="{{ url('/structure') }}">Pengurus</a>
                 <a class="collapse-item" href="{{ url('/news') }}">Berita</a>
+                <a class="collapse-item" href="{{ url('/admin/artikel') }}">Artikel</a>
                 {{-- <a class="collapse-item" href="{{ url('/study') }}">Kajian</a> --}}
                 <a class="collapse-item" href="{{ url('/testimonials') }}">Testimony</a>
             </div>
