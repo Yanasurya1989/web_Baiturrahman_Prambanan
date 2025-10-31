@@ -4,9 +4,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>{{ $artikel->judul }} - Artikel</title>
-    <!-- Bootstrap 5 -->
+
+    {{-- Open Graph untuk WhatsApp / Facebook --}}
+    <meta property="og:title" content="{{ $artikel->judul }} - Baiturrahman Prambanan" />
+    <meta property="og:description"
+        content="{{ \Illuminate\Support\Str::limit(strip_tags($artikel->deskripsi), 150) }}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="{{ url()->current() }}" />
+    <meta property="og:image" content="{{ asset('storage/' . $artikel->gambar) }}" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    {{-- Twitter Card (opsional tapi berguna untuk beberapa platform lain) --}}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{{ $artikel->judul }} - Baiturrahman Prambanan" />
+    <meta name="twitter:description"
+        content="{{ \Illuminate\Support\Str::limit(strip_tags($artikel->deskripsi), 150) }}" />
+    <meta name="twitter:image" content="{{ asset('storage/' . $artikel->gambar) }}" />
+
+    {{-- Favicon dan Bootstrap --}}
+    <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
         body {
             background: #f8fafc;
