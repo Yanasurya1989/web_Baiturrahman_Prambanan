@@ -29,9 +29,29 @@ class HomepageController extends Controller
         $units = Unit::get();
         $structurs = Structurs::get();
 
-        $sliders = Header::where('status', 'active')->get();
-        foreach ($sliders as $data) {
-            $data->short_description = substr($data->deskripsi, 0, 100) . '...';
+        // $sliders = Header::where('status', 'active')->get();
+        // foreach ($sliders as $data) {
+        //     $data->short_description = substr($data->deskripsi, 0, 100) . '...';
+        // }
+
+        $sliderMode = env('SLIDER_MODE', 'header'); // default header
+
+        if ($sliderMode === 'artikel') {
+            $sliders = Artikel::latest()->take(5)->get();
+            foreach ($sliders as $item) {
+                $item->short = substr(strip_tags($item->deskripsi), 0, 120) . '...';
+                $item->image_url = asset('storage/' . $item->gambar);
+                $item->title = $item->judul;
+                $item->link = route('artikel.show', $item->id);
+            }
+        } else {
+            $sliders = Header::where('status', 'active')->get();
+            foreach ($sliders as $item) {
+                $item->short = substr(strip_tags($item->deskripsi), 0, 120) . '...';
+                $item->image_url = $item->gambar;
+                $item->title = $item->judul;
+                $item->link = route('slider.show', $item->id ?? 0);
+            }
         }
 
         // $logos = Logo::get();
